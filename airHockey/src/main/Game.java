@@ -22,7 +22,6 @@ public class Game extends Canvas implements Runnable { //main class that does al
 		new Window(WIDTH, HEIGHT, "Air Hockey", this);
 		handler = new Handler();
 		handler.addObject(new Player(100, 100, ID.Player));
-
 	}
 	
 	public synchronized void start() {

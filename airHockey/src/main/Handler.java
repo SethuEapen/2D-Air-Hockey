@@ -8,6 +8,8 @@ public class Handler { //steps through all the game objects and updates them ind
 	LinkedList<GameObject> object = new LinkedList<GameObject>();
 	
 	public void tick() {
+		//PlayerMovement pm = new PlayerMovement();
+		//pm.getCoords();
 		for(int i = 0; i < object.size(); i++) {
 			GameObject tempObject = object.get(i);
 			

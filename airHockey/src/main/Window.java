@@ -3,6 +3,7 @@ package main;
 import java.awt.Canvas;
 import java.awt.Dimension;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 public class Window extends Canvas { //creates the window
@@ -13,6 +14,7 @@ public class Window extends Canvas { //creates the window
 	private static final long serialVersionUID = 1L;
 	
 	public Window(int width, int height, String title, Game game) {
+		//Create JFrame
 		JFrame frame = new JFrame(title);
 		
 		frame.setPreferredSize(new Dimension(width, height));
@@ -22,7 +24,16 @@ public class Window extends Canvas { //creates the window
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
-		frame.add(game);
+		
+		JComponent newContentPane = new PlayerMovementListener();
+        newContentPane.setOpaque(true); //content panes must be opaque
+		
+        PlayerMovementListener pml = new PlayerMovementListener();
+        //pml.blankArea.add(game);
+        game.addMouseMotionListener(pml);
+        newContentPane.add(game);
+        frame.setContentPane(newContentPane);
+		
 		frame.setVisible(true);
 		game.start();
 	}
