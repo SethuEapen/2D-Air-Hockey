@@ -8,6 +8,14 @@ public class Player extends GameObject { //puck
     PlayerMovementListener pml;
 
 	int radius = 32;
+	long lastTime = System.nanoTime();
+	long currentTime;
+	double timePassed;
+	int lastx = 0, lasty = 0;
+	int lastvelx = 0, lastvely = 0;
+
+	
+	int count = 0;
     
 	public Player(int x, int y, ID id) {
 		super(x, y, id);
@@ -16,7 +24,33 @@ public class Player extends GameObject { //puck
 	
 	@Override
 	public void tick() {
+		//calculating location
 		clampCords();
+		//calculating velocity
+		currentTime = System.nanoTime();
+		timePassed = (currentTime - lastTime)/1000;
+		velX = (x - lastx)/timePassed;
+		velY = (y - lasty)/timePassed;
+		
+		//calculating acceleration
+		accX = (velX - lastvelx)/timePassed;
+		accY = (velY - lastvely)/timePassed;
+
+		
+		//reporting values
+		
+		//if(count == 1) {
+		System.out.println("Vel:" + velX);
+		System.out.println("Vel: " + velY);
+		System.out.println("Acc:" + accX);
+		System.out.println("Acc: " + accY);
+			//count = 0;
+		//}
+		count++;
+		//resetting
+		lastx = x;
+		lasty = y;
+		lastTime = System.nanoTime();
 	}
 
 	private void clampCords() {

@@ -6,7 +6,8 @@ public abstract class GameObject { //abstract class for game entities
 
 	protected int x, y;
 	protected ID id;
-	protected int velX, velY, accX, accY, mass;
+	protected double velX, velY, accX, accY;
+	protected int mass;
 	
 	public GameObject (int x, int y, ID id) {
 		this.x = x;
@@ -36,44 +37,36 @@ public abstract class GameObject { //abstract class for game entities
 		return id; 
 	}
 
-	public int getVelX() {
+	public double getVelX() {
 		return velX;
 	}
 
-	public void setVelX(int velX) {
+	public void setVelX(long velX) {
 		this.velX = velX;
 	}
 
-	public int getVelY() {
+	public double getVelY() {
 		return velY;
 	}
 
-	public void setVelY(int velY) {
+	public void setVelY(long velY) {
 		this.velY = velY;
 	}
 
-	public int getAccX() {
+	public double getAccX() {
 		return accX;
 	}
 
-	public void setAccX(int accX) {
+	public void setAccX(long accX) {
 		this.accX = accX;
 	}
 
-	public int getAccY() {
+	public double getAccY() {
 		return accY;
 	}
 
-	public void setAccY(int accY) {
+	public void setAccY(long accY) {
 		this.accY = accY;
-	}
-
-	public int getMass() {
-		return mass;
-	}
-
-	public void setMass(int mass) {
-		this.mass = mass;
 	}
 	
 }
