@@ -29,7 +29,6 @@ public class Window extends Canvas { //creates the window
         newContentPane.setOpaque(true); //content panes must be opaque
 		
         PlayerMovementListener pml = new PlayerMovementListener();
-        //pml.blankArea.add(game);
         game.addMouseMotionListener(pml);
         newContentPane.add(game);
         frame.setContentPane(newContentPane);
