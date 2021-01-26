@@ -12,7 +12,7 @@ public class Game extends Canvas implements Runnable { //main class that does al
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static final int WIDTH = 520, HEIGHT = WIDTH * 9 / 5; 
+	public static final int WIDTH = 1500, HEIGHT = 900; 
 	private Thread thread;
 	private boolean running = false;
 	
@@ -22,6 +22,7 @@ public class Game extends Canvas implements Runnable { //main class that does al
 		new Window(WIDTH, HEIGHT, "Air Hockey", this);
 		handler = new Handler();
 		handler.addObject(new Player(100, 100, ID.Player));
+		handler.addObject(new Puck(0, 0, ID.Puck));
 	}
 	
 	public synchronized void start() {
@@ -81,7 +82,7 @@ public class Game extends Canvas implements Runnable { //main class that does al
 		
 		Graphics g = bs.getDrawGraphics();
 		
-		g.setColor(Color.black);
+		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		handler.render(g);

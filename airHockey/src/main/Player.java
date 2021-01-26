@@ -7,7 +7,7 @@ public class Player extends GameObject { //puck
 
     PlayerMovementListener pml;
 
-	int radius = 32;
+	int radius = 46;
 	long lastTime = System.nanoTime();
 	long currentTime;
 	double timePassed;
@@ -46,7 +46,7 @@ public class Player extends GameObject { //puck
 		System.out.println("Acc: " + accY);
 			//count = 0;
 		//}
-		count++;
+		//count++;
 		//resetting
 		lastx = x;
 		lasty = y;
@@ -59,9 +59,9 @@ public class Player extends GameObject { //puck
 		
 		
 		int clampx = Math.max(tempx, radius/2);
-		clampx = Math.min(clampx, Game.WIDTH - radius);
+		clampx = Math.min(clampx, (Game.WIDTH-radius));//change to if statements
 		int clampy = Math.max(tempy, (Game.HEIGHT / 2) + radius/2);
-		clampy = Math.min(clampy, Game.HEIGHT - radius*7/4);
+		clampy = Math.min(clampy, Game.HEIGHT-radius*2);
 		
 		clampx -= radius/2;
 		clampy -= radius/2;
@@ -73,7 +73,7 @@ public class Player extends GameObject { //puck
 
 	@Override
 	public void render(Graphics g) {
-		g.setColor(Color.white);
+		g.setColor(Color.BLUE);
 		g.fillOval(x, y, radius, radius);
 	}
 
