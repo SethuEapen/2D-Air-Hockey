@@ -13,6 +13,7 @@ public class Game extends Canvas implements Runnable { //main class that does al
 	private static final long serialVersionUID = 1L;
 
 	public static final int WIDTH = 1500, HEIGHT = 900; 
+	public static final double friction = 0.1;
 	private Thread thread;
 	private boolean running = false;
 	
@@ -21,8 +22,9 @@ public class Game extends Canvas implements Runnable { //main class that does al
 	public Game() {
 		new Window(WIDTH, HEIGHT, "Air Hockey", this);
 		handler = new Handler();
-		handler.addObject(new Player(100, 100, ID.Player, handler));
 		handler.addObject(new Puck(300, 300, ID.Puck));
+		handler.addObject(new Player(100, 100, ID.Player, handler));
+
 	}
 	
 	public synchronized void start() {
@@ -62,7 +64,7 @@ public class Game extends Canvas implements Runnable { //main class that does al
 			
 			if(System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				//System.out.println("FPS: " + frames);
+				System.out.println("FPS: " + frames);
 				frames = 0;
 			}
 		}

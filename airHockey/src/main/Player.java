@@ -13,7 +13,6 @@ public class Player extends GameObject { //puck
 	double timePassed;
 	int lastx = 0, lasty = 0;
 	int lastvelx = 0, lastvely = 0;
-
 	
 	int count = 0;
     
@@ -21,6 +20,7 @@ public class Player extends GameObject { //puck
 		super(x, y, id);
 		this.handler = handler;
 		diameter = 84;
+		mass = 4;
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public class Player extends GameObject { //puck
 		clampCords();
 		//calculating velocity
 		currentTime = System.nanoTime();
-		timePassed = (currentTime - lastTime)/1000;
+		timePassed = (currentTime - lastTime)/12000000;
 		velX = (x - lastx)/timePassed;
 		velY = (y - lasty)/timePassed;
 		
@@ -63,13 +63,30 @@ public class Player extends GameObject { //puck
 			GameObject tempObject = handler.object.get(i);
 			if(tempObject.getID() == ID.Puck) {
 				if(intersection(tempObject)) {
-					System.out.println("Intersection!");
+					onCollision(tempObject);
 				}
 			}
 		}
 	}
 	
 	
+	private void onCollision(GameObject tempObject) {
+		tempObject.velX = calcCompnt(mass, tempObject.mass, velX, tempObject.velX);
+		tempObject.velY = calcCompnt(mass, tempObject.mass, velY, tempObject.velY);
+
+	}
+	
+	private double calcCompnt(double m1, double m2, double v1, double v2) {
+		double compnt;
+		
+		double top = 2*(m1 * v1) - (m1 * v2) + (m2 * v2);
+		double bottom = m1 + m2;
+		
+		compnt = top / bottom;
+		
+		return compnt;
+	}
+
 	private boolean intersection(GameObject tempObject) {
 		int tempx = tempObject.x;
 		int tempy = tempObject.y;
@@ -81,11 +98,7 @@ public class Player extends GameObject { //puck
 		int difY = tempy - y;
 		int distance = radius + tempRadius;
 		
-		int difxsq = (int) Math.pow(difX, 2);
-		int difysq = (int) Math.pow(difY, 2);
-		
-		
-		int hypo = (int) (Math.sqrt((difX * difX) + (difY * difY)));
+		int hypo = (int) (Math.sqrt(Math.pow(difX, 2) + Math.pow(difY, 2)));
 		
 		if(distance >= hypo) {
 			return true;

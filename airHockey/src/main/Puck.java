@@ -16,6 +16,7 @@ public class Puck extends GameObject {
 			velX = 0;//6;
 			velY = 0;//7;
 			diameter = 42;
+			mass = 2;
 	}
 	
 	@Override
