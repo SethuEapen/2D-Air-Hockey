@@ -5,17 +5,17 @@ import java.awt.Graphics;
 
 public class Puck extends GameObject {
 
-	int radius = 24;
 	long lastTime = System.nanoTime();
 	long currentTime;
 	double timePassed;
 	
 	public Puck(int x, int y, ID id) {
 		super(x, y, id);
-			accX = -.01;
-			accY = -.01;
-			velX = 6;
-			velY = 7;
+			accX = 0;//-.01;
+			accY = 0;//-.01;
+			velX = 0;//6;
+			velY = 0;//7;
+			diameter = 42;
 	}
 	
 	@Override
@@ -27,8 +27,10 @@ public class Puck extends GameObject {
 
 	@Override
 	public void render(Graphics g) {
+		int radius = diameter/2;
+		
 		g.setColor(Color.BLACK);
-		g.fillOval(x, y, radius, radius);
+		g.fillOval(x-radius, y-radius, diameter, diameter);
 	}
 	
 	public void puckMovement() {
@@ -39,19 +41,22 @@ public class Puck extends GameObject {
 		y = y + (int) ((velY * timePassed) + (.5 * accY * Math.pow(timePassed, 2)));
 		velY = velY + (accY * timePassed);
 
-		if(x <= 0) {
+		int boarder = 40;
+		int radius = diameter/2;
+		
+		if(x <= radius) {
 			velX = -velX;
 			accX = -accX;
 		}
-		else if(x >= Game.WIDTH-100) {
+		else if(x >= Game.WIDTH-radius) {
 			velX = -velX;
 			accX = -accX;
 		}
-		if(y <= 0) {
+		if(y <= radius) {
 			velY = -velY;
 			accY = -accY;
 		}
-		else if(y >= Game.HEIGHT-100) {
+		else if(y >= Game.HEIGHT-radius-boarder) {
 			velY = -velY;
 			accY = -accY;
 		}
@@ -60,5 +65,5 @@ public class Puck extends GameObject {
 		//resetting
 		lastTime = System.nanoTime();
 	}
-
+	
 }

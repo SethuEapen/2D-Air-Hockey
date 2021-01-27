@@ -6,8 +6,8 @@ import java.awt.Graphics;
 public class Player extends GameObject { //puck
 
     PlayerMovementListener pml;
+    Handler handler;
 
-	int radius = 46;
 	long lastTime = System.nanoTime();
 	long currentTime;
 	double timePassed;
@@ -17,9 +17,10 @@ public class Player extends GameObject { //puck
 	
 	int count = 0;
     
-	public Player(int x, int y, ID id) {
+	public Player(int x, int y, ID id, Handler handler) {
 		super(x, y, id);
-		
+		this.handler = handler;
+		diameter = 84;
 	}
 	
 	@Override
@@ -40,41 +41,98 @@ public class Player extends GameObject { //puck
 		//reporting values
 		
 		//if(count == 1) {
-		System.out.println("Vel:" + velX);
-		System.out.println("Vel: " + velY);
-		System.out.println("Acc:" + accX);
-		System.out.println("Acc: " + accY);
+		//System.out.println("Vel:" + velX);
+		//System.out.println("Vel: " + velY);
+		//System.out.println("Acc:" + accX);
+		//System.out.println("Acc: " + accY);
 			//count = 0;
 		//}
 		//count++;
+		
+		//collisions
+		collisions();
+		
 		//resetting
 		lastx = x;
 		lasty = y;
 		lastTime = System.nanoTime();
 	}
 
+	private void collisions() {
+		for (int i = 0; i < handler.object.size(); i++) {
+			GameObject tempObject = handler.object.get(i);
+			if(tempObject.getID() == ID.Puck) {
+				if(intersection(tempObject)) {
+					System.out.println("Intersection!");
+				}
+			}
+		}
+	}
+	
+	
+	private boolean intersection(GameObject tempObject) {
+		int tempx = tempObject.x;
+		int tempy = tempObject.y;
+		
+		int radius = diameter/2;
+		int tempRadius = tempObject.diameter/2;
+		
+		int difX = tempx - x;
+		int difY = tempy - y;
+		int distance = radius + tempRadius;
+		
+		int difxsq = (int) Math.pow(difX, 2);
+		int difysq = (int) Math.pow(difY, 2);
+		
+		
+		int hypo = (int) (Math.sqrt((difX * difX) + (difY * difY)));
+		
+		if(distance >= hypo) {
+			return true;
+		}
+		
+		if(count == 50) {
+			System.out.println("Tempx: " + tempx + ", Tempy: " + tempy + ", Distance: " + distance + ", difX: " + difX + ", difY: " + difY + ", Hypo: " + hypo);		
+			count = 0;
+		}
+		count++;
+		
+		return false;
+	}
+
 	private void clampCords() {
 		int tempx = PlayerMovementListener.playerx;
 		int tempy = PlayerMovementListener.playery;
 		
-		
-		int clampx = Math.max(tempx, radius/2);
-		clampx = Math.min(clampx, (Game.WIDTH-radius));//change to if statements
-		int clampy = Math.max(tempy, (Game.HEIGHT / 2) + radius/2);
-		clampy = Math.min(clampy, Game.HEIGHT-radius*2);
-		
-		clampx -= radius/2;
-		clampy -= radius/2;
+		int boarder = 40;
+		int radius = diameter / 2;
 
+		if(tempx <= radius) {
+			tempx = radius;
+		}
+		else if(tempx >= (Game.WIDTH-radius)) {
+			tempx = Game.WIDTH - radius;
+		}
+		if(tempy <= radius) {
+			tempy = radius;
+		}
+		else if(tempy >= (Game.HEIGHT-radius-boarder)) {
+			tempy = (Game.HEIGHT-radius-boarder);
+		}		
 		
-		x = clampx;
-		y = clampy;
+		x = tempx;
+		y = tempy;
 	}
-
+	
 	@Override
 	public void render(Graphics g) {
+		int radius = diameter / 2;
+
+		int adjustedx = x - radius;
+		int adjustedy = y - radius;
+		
 		g.setColor(Color.BLUE);
-		g.fillOval(x, y, radius, radius);
+		g.fillOval(adjustedx, adjustedy, diameter, diameter);
 	}
 
 }

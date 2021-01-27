@@ -8,6 +8,7 @@ public abstract class GameObject { //abstract class for game entities
 	protected ID id;
 	protected double velX, velY, accX, accY;
 	protected int mass;
+	public int diameter;
 	
 	public GameObject (int x, int y, ID id) {
 		this.x = x;
