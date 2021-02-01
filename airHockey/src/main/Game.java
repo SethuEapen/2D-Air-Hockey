@@ -12,17 +12,20 @@ public class Game extends Canvas implements Runnable { //main class that does al
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static final int WIDTH = 1500, HEIGHT = 900; 
-	public static final double friction = 0.1;
+	public static final int FRAME_WIDTH = 500, FRAME_HEIGHT = 900; 
+	public static int WIDTH, HEIGHT; 
+	public static final double update = 800000000;
+	public static int playerScore = 0;
+	public static int AIScore = 0;
 	private Thread thread;
 	private boolean running = false;
 	
 	private Handler handler;
 	
 	public Game() {
-		new Window(WIDTH, HEIGHT, "Air Hockey", this);
+		new Window(FRAME_WIDTH, FRAME_HEIGHT, "Air Hockey", this);
 		handler = new Handler();
-		handler.addObject(new Puck(300, 300, ID.Puck));
+		handler.addObject(new Puck(WIDTH/2, HEIGHT/2, ID.Puck));
 		handler.addObject(new Player(100, 100, ID.Player, handler));
 
 	}
@@ -45,7 +48,7 @@ public class Game extends Canvas implements Runnable { //main class that does al
 	@Override
 	public void run() {
 		long lastTime = System.nanoTime();
-		double amountOfTicks = 60.0;
+		double amountOfTicks = 144.0;
 		double ns = 1000000000 /amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
@@ -64,7 +67,7 @@ public class Game extends Canvas implements Runnable { //main class that does al
 			
 			if(System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				System.out.println("FPS: " + frames);
+				//System.out.println("FPS: " + frames);
 				frames = 0;
 			}
 		}
@@ -86,12 +89,32 @@ public class Game extends Canvas implements Runnable { //main class that does al
 		
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
+		makeTable(g);
 		
 		handler.render(g);
 		
 		g.dispose();
 		bs.show();
 		
+	}
+	
+	private void makeTable(Graphics g) {
+		g.setColor(Color.black);
+		g.fillRect(WIDTH/2 - WIDTH/6, 0, WIDTH/3, 10);
+		g.fillRect(WIDTH/2 - WIDTH/6, HEIGHT - 10,WIDTH/3 ,10);
+		g.setColor(Color.red);
+		g.drawOval(WIDTH/2 - 50, HEIGHT/2 - 50, 100, 100);
+		g.drawLine(0, HEIGHT/2, WIDTH, HEIGHT/2);
+		g.setColor(Color.blue);
+		g.drawOval(WIDTH/4 - 40, HEIGHT/5 - 40, 80, 80);
+		g.drawOval(WIDTH/4 - 40, HEIGHT/5*4 - 40, 80, 80);
+		g.drawOval(WIDTH/4*3 - 40, HEIGHT/5 - 40, 80, 80);
+		g.drawOval(WIDTH/4*3 - 40, HEIGHT/5*4 - 40, 80, 80);
+		g.drawLine(0, HEIGHT/3, WIDTH, HEIGHT/3);
+		g.drawLine(0, HEIGHT/3*2, WIDTH, HEIGHT/3*2);
+
+
+
 	}
 	
 	public static void main(String args[]) {

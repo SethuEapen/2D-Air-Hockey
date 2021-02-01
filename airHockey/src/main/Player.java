@@ -19,8 +19,8 @@ public class Player extends GameObject { //puck
 	public Player(int x, int y, ID id, Handler handler) {
 		super(x, y, id);
 		this.handler = handler;
-		diameter = 84;
-		mass = 4;
+		diameter = 60;
+		mass = 3;
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public class Player extends GameObject { //puck
 		clampCords();
 		//calculating velocity
 		currentTime = System.nanoTime();
-		timePassed = (currentTime - lastTime)/12000000;
+		timePassed = (currentTime - lastTime)/Game.update;
 		velX = (x - lastx)/timePassed;
 		velY = (y - lasty)/timePassed;
 		
@@ -73,7 +73,31 @@ public class Player extends GameObject { //puck
 	private void onCollision(GameObject tempObject) {
 		tempObject.velX = calcCompnt(mass, tempObject.mass, velX, tempObject.velX);
 		tempObject.velY = calcCompnt(mass, tempObject.mass, velY, tempObject.velY);
-
+		antiClip(tempObject);
+	}
+	
+	private void antiClip(GameObject tempObject) {
+		int buffer = 1;
+		int radius = diameter/2;
+		int tempRadius = tempObject.diameter/2;
+		int distance = radius + tempRadius + buffer;
+		int difx = tempObject.x - x;
+		int dify = tempObject.y - y;
+		//System.out.println(distance + ", " + difx + ", " + dify);
+		double angle = Math.atan2(dify, difx);
+		int newX = (int) (Math.cos(angle) * distance) + x;
+		int newY = (int) (Math.sin(angle) * distance) + y;
+		int boarder = 40;
+		
+		if(newX <= 0 || newX >= Game.WIDTH || newY <= 0 || newY >= Game.HEIGHT) {
+			tempObject.x = 300;
+			tempObject.y = 300;
+		}
+		else {
+			tempObject.x = newX;
+			tempObject.y = newY;
+		}
+		
 	}
 	
 	private double calcCompnt(double m1, double m2, double v1, double v2) {
@@ -105,7 +129,7 @@ public class Player extends GameObject { //puck
 		}
 		
 		if(count == 50) {
-			System.out.println("Tempx: " + tempx + ", Tempy: " + tempy + ", Distance: " + distance + ", difX: " + difX + ", difY: " + difY + ", Hypo: " + hypo);		
+			//System.out.println("Tempx: " + tempx + ", Tempy: " + tempy + ", Distance: " + distance + ", difX: " + difX + ", difY: " + difY + ", Hypo: " + hypo);		
 			count = 0;
 		}
 		count++;
@@ -126,11 +150,11 @@ public class Player extends GameObject { //puck
 		else if(tempx >= (Game.WIDTH-radius)) {
 			tempx = Game.WIDTH - radius;
 		}
-		if(tempy <= radius) {
-			tempy = radius;
+		if(tempy <= Game.HEIGHT/2 + radius) {
+			tempy = Game.HEIGHT/2 + radius;
 		}
-		else if(tempy >= (Game.HEIGHT-radius-boarder)) {
-			tempy = (Game.HEIGHT-radius-boarder);
+		else if(tempy >= (Game.HEIGHT-radius)) {
+			tempy = (Game.HEIGHT-radius);
 		}		
 		
 		x = tempx;
@@ -144,7 +168,7 @@ public class Player extends GameObject { //puck
 		int adjustedx = x - radius;
 		int adjustedy = y - radius;
 		
-		g.setColor(Color.BLUE);
+		g.setColor(Color.RED);
 		g.fillOval(adjustedx, adjustedy, diameter, diameter);
 	}
 

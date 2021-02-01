@@ -34,6 +34,12 @@ public class Window extends Canvas { //creates the window
         frame.setContentPane(newContentPane);
 		
 		frame.setVisible(true);
+		
+		Game.WIDTH = newContentPane.getWidth();
+		Game.HEIGHT = newContentPane.getHeight();
+
+		//System.out.println(Game.WIDTH + ", " + Game.HEIGHT);
+		
 		game.start();
 	}
 	
