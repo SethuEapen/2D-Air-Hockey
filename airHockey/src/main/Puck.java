@@ -8,8 +8,9 @@ public class Puck extends GameObject {
 	long lastTime = System.nanoTime();
 	long currentTime;
 	double timePassed;
+	Handler handler;
 	
-	public Puck(int x, int y, ID id) {
+	public Puck(int x, int y, ID id, Handler handler) {
 		super(x, y, id);
 			accX = 0;//-.01;
 			accY = 0;//-.01;
@@ -17,6 +18,7 @@ public class Puck extends GameObject {
 			velY = 0;//7;
 			diameter = 40;
 			mass = 2;
+			this.handler = handler;
 	}
 	
 	@Override
@@ -81,34 +83,46 @@ public class Puck extends GameObject {
 	private void score() {
 		if(x >= (Game.WIDTH/2 - Game.WIDTH/6) && x <= (Game.WIDTH/2 + Game.WIDTH/6)) {
 			if(y <= 10 + (diameter/2)) {
-				x = Game.WIDTH/2; 
-				y = Game.HEIGHT/2;
-				velX = 0;
-				velY = 0;
-				accX = 0;
-				accY = 0;
+				reset();
 				Game.playerScore++;
 				System.out.println("Game Score: player - " + Game.playerScore + " AI - " + Game.AIScore);
 			}
 		}
 		if(x >= (Game.WIDTH/2 - Game.WIDTH/6) && x <= (Game.WIDTH/2 + Game.WIDTH/6)) {
 			if(y >= Game.HEIGHT - 10 - (diameter/2)) {
-				x = Game.WIDTH/2; 
-				y = Game.HEIGHT/2;
-				velX = 0;
-				velY = 0;
-				accX = 0;
-				accY = 0;
+				reset();
 				Game.AIScore++;
 				System.out.println("Game Score: player - " + Game.playerScore + " AI - " + Game.AIScore);
 			}
 		}
 	}
 	
+	public void reset() {
+		x = Game.WIDTH/2; 
+		y = Game.HEIGHT/2;
+		velX = 0;
+		velY = 0;
+		accX = 0;
+		accY = 0;
+		for (int i = 0; i < handler.object.size(); i++) {
+			GameObject tempObject = handler.object.get(i);
+			if(tempObject.getID() == ID.AI) {
+				tempObject.x = Game.WIDTH/2; 
+				tempObject.y = 100;
+				tempObject.velX = 0;
+				tempObject.velY = 0;
+				tempObject.accX = 0;
+				tempObject.accY = 0;
+			}
+		}
+	}
+	
 	private void calcAcc() {
+		accX = -velX / 10;
+		accY = -velY / 10;
 		//System.out.println((int)(velX) + ", " + (int)(velY));
-
-		if((int)(velX) != 0) {
+		/*
+		if((int)(velX * 10) != 0) {
 			//double angle = Math.atan2(velX, velY);
 			//accX = -1 * Math.cos(angle);
 			//System.out.println(angle + ", " + accX + ", " + accY);
@@ -118,7 +132,7 @@ public class Puck extends GameObject {
 			accX = 0;
 			velX = 0;
 		}
-		if((int)(velY) != 0) {
+		if((int)(velY * 10) != 0) {
 			//double angle = Math.atan2(velX, velY);
 			//accY = -1 * Math.sin(angle);
 			accY = -velY / 10;
@@ -134,7 +148,7 @@ public class Puck extends GameObject {
 			}
 		}
 		//System.out.println((int)(velX) + ", " + (int)(velY));
-
+		*/
 	}
 	
 }

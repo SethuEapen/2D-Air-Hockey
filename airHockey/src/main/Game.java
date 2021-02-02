@@ -25,8 +25,9 @@ public class Game extends Canvas implements Runnable { //main class that does al
 	public Game() {
 		new Window(FRAME_WIDTH, FRAME_HEIGHT, "Air Hockey", this);
 		handler = new Handler();
-		handler.addObject(new Puck(WIDTH/2, HEIGHT/2, ID.Puck));
+		handler.addObject(new Puck(WIDTH/2, HEIGHT/2, ID.Puck, handler));
 		handler.addObject(new Player(100, 100, ID.Player, handler));
+		//handler.addObject(new AI(WIDTH/2, 100, ID.AI, handler));
 
 	}
 	
@@ -67,7 +68,7 @@ public class Game extends Canvas implements Runnable { //main class that does al
 			
 			if(System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				//System.out.println("FPS: " + frames);
+				System.out.println("FPS: " + frames);
 				frames = 0;
 			}
 		}
