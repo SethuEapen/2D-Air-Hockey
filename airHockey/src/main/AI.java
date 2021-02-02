@@ -12,7 +12,7 @@ public class AI extends GameObject {
 	double timePassed;
 	int lastx = 0, lasty = 0;
 	int lastvelx = 0, lastvely = 0;
-	int speed = 8;
+	int speed = 7;
 	
 	int count = 0;
     
@@ -108,8 +108,9 @@ public class AI extends GameObject {
 	}
 	
 	private void onCollision(GameObject tempObject) {
-		tempObject.velX = calcCompnt(mass, tempObject.mass, velX, tempObject.velX);
-		tempObject.velY = calcCompnt(mass, tempObject.mass, velY, tempObject.velY);
+		//tempObject.velX = calcCompnt(mass, tempObject.mass, velX, tempObject.velX);
+		//tempObject.velY = calcCompnt(mass, tempObject.mass, velY, tempObject.velY);
+		calcCompnt(tempObject);
 		antiClip(tempObject);
 	}
 	
@@ -157,15 +158,30 @@ public class AI extends GameObject {
 		}
 	}
 	
-	private double calcCompnt(double m1, double m2, double v1, double v2) {
-		double compnt;
+	private void calcCompnt(GameObject tempObject) {
+		//double compnt;
 		
+		/* use this code if you want to use conservation of momentum but if you want it to work better just take advantage of the 
+		 * vague terms of the units and just use the much better proportional method below
 		double top = 2*(m1 * v1) - (m1 * v2) + (m2 * v2);
 		double bottom = m1 + m2;
 		
 		compnt = top / bottom;
+		*/
+		double temp = Math.pow(velX, 2) + Math.pow(velY, 2);
+		double playerVel = Math.sqrt(temp) * mass/tempObject.mass;
+		temp = Math.pow(tempObject.velX, 2) + Math.pow(tempObject.velY, 2);
+		double puckVel = Math.sqrt(temp);
 		
-		return compnt;
+		double totalVel = playerVel + puckVel;
+		
+		int difx = tempObject.x - x;
+		int dify = tempObject.y - y;
+		double angle = Math.atan2(dify, difx);
+		tempObject.velX = (int) (Math.cos(angle) * totalVel);
+		tempObject.velY = (int) (Math.sin(angle) * totalVel);
+		
+		//return compnt;
 	}
 	
 	private boolean intersection(GameObject tempObject) {

@@ -8,6 +8,8 @@ public class Puck extends GameObject {
 	long lastTime = System.nanoTime();
 	long currentTime;
 	double timePassed;
+	boolean AIWin = false;
+	boolean PlayerWin = false;
 	Handler handler;
 	
 	public Puck(int x, int y, ID id, Handler handler) {
@@ -32,6 +34,12 @@ public class Puck extends GameObject {
 		
 		g.setColor(Color.BLACK);
 		g.fillOval(x-radius, y-radius, diameter, diameter);
+		if(AIWin) {
+			g.drawString("AI WON", 100, 100);
+		}
+		if(PlayerWin) {
+			g.drawString("PLAYER WON", 100, 100);
+		}
 	}
 	
 	public void puckMovement() {
@@ -39,13 +47,16 @@ public class Puck extends GameObject {
 		timePassed = (currentTime - lastTime)/Game.update;
 		
 		
-		//System.out.println(accX + ", " + accY);
+		/*//rework
+		
+
+
+		*///end of rework
+		
 		calcAcc();
-		//System.out.println(velX);
 
 		x = x + (int) ((velX * timePassed) + (.5 * accX * Math.pow(timePassed, 2)));
 		velX = velX + (accX * timePassed);
-		//System.out.println(velX);
 		y = y + (int) ((velY * timePassed) + (.5 * accY * Math.pow(timePassed, 2)));
 		velY = velY + (accY * timePassed);
 
@@ -95,6 +106,14 @@ public class Puck extends GameObject {
 				System.out.println("Game Score: player - " + Game.playerScore + " AI - " + Game.AIScore);
 			}
 		}
+		if(Game.AIScore >= 7) {
+			System.out.println("AI Won!");
+			AIWin = true;
+		}
+		if(Game.playerScore >= 7) {
+			System.out.println("PLAYER Won!");
+			PlayerWin = true;
+		}
 	}
 	
 	public void reset() {
@@ -118,8 +137,19 @@ public class Puck extends GameObject {
 	}
 	
 	private void calcAcc() {
-		accX = -velX / 10;
-		accY = -velY / 10;
+				
+		accX = -velX / 1;
+		accY = -velY / 1;
+		
+		
+		//double distance = (puckVel * timePassed) + (.5 * Game.friction * Math.pow(timePassed, 2));
+		/*if(velX != 0 && velY != 0) {
+			double angle = Math.atan2(velX, velY);
+			accX = Math.abs(Math.cos(angle)) * -velX;
+			accY = Math.abs(Math.sin(angle)) * -velY;
+			System.out.println(accY);
+		}*/
+		
 		//System.out.println((int)(velX) + ", " + (int)(velY));
 		/*
 		if((int)(velX * 10) != 0) {

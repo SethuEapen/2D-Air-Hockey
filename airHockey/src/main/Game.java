@@ -15,6 +15,7 @@ public class Game extends Canvas implements Runnable { //main class that does al
 	public static final int FRAME_WIDTH = 500, FRAME_HEIGHT = 900; 
 	public static int WIDTH, HEIGHT; 
 	public static final double update = 800000000;
+	public static final double friction = -1.0;
 	public static int playerScore = 0;
 	public static int AIScore = 0;
 	private Thread thread;
@@ -27,7 +28,7 @@ public class Game extends Canvas implements Runnable { //main class that does al
 		handler = new Handler();
 		handler.addObject(new Puck(WIDTH/2, HEIGHT/2, ID.Puck, handler));
 		handler.addObject(new Player(100, 100, ID.Player, handler));
-		//handler.addObject(new AI(WIDTH/2, 100, ID.AI, handler));
+		handler.addObject(new AI(WIDTH/2, 100, ID.AI, handler));
 
 	}
 	
@@ -97,6 +98,24 @@ public class Game extends Canvas implements Runnable { //main class that does al
 		g.dispose();
 		bs.show();
 		
+		if(AIScore >= 7) {
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.exit(0);
+		}
+		if(playerScore >= 7) {
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.exit(0);
+		}
 	}
 	
 	private void makeTable(Graphics g) {
