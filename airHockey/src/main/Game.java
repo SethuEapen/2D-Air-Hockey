@@ -7,9 +7,7 @@ import java.awt.image.BufferStrategy;
 
 public class Game extends Canvas implements Runnable { //main class that does all of the stuff
 	
-	/**
-	 * 
-	 */
+	//feild variables
 	private static final long serialVersionUID = 1L;
 
 	public static final int FRAME_WIDTH = 500, FRAME_HEIGHT = 900; 
@@ -23,7 +21,7 @@ public class Game extends Canvas implements Runnable { //main class that does al
 	
 	private Handler handler;
 	
-	public Game() {
+	public Game() {//game object
 		new Window(FRAME_WIDTH, FRAME_HEIGHT, "Air Hockey", this);
 		handler = new Handler();
 		handler.addObject(new Puck(WIDTH/2, HEIGHT/2, ID.Puck, handler));
@@ -32,13 +30,13 @@ public class Game extends Canvas implements Runnable { //main class that does al
 
 	}
 	
-	public synchronized void start() {
+	public synchronized void start() {//on start
 		thread = new Thread(this);
 		thread.start();
 		running = true;
 	}
 	
-	public synchronized void stop() {
+	public synchronized void stop() {//on stop
 		try {
 			thread.join();//killing the thread
 			running = false;
@@ -48,14 +46,14 @@ public class Game extends Canvas implements Runnable { //main class that does al
 	}
 	
 	@Override
-	public void run() {
+	public void run() {//on run
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 144.0;
 		double ns = 1000000000 /amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
 		int frames = 0;
-		while(running){
+		while(running){//tick fucntion
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
 			lastTime =  now;
@@ -76,11 +74,11 @@ public class Game extends Canvas implements Runnable { //main class that does al
 		stop();
 	}
 	
-	private void tick() {
+	private void tick() {//send tick to handler
 		handler.tick();
 	}
 	
-	private void render() {
+	private void render() {//render to handler and create board
 		BufferStrategy bs = this.getBufferStrategy();
 		if(bs == null) {
 			this.createBufferStrategy(3);
@@ -102,7 +100,6 @@ public class Game extends Canvas implements Runnable { //main class that does al
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			System.exit(0);
@@ -111,14 +108,13 @@ public class Game extends Canvas implements Runnable { //main class that does al
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			System.exit(0);
 		}
 	}
 	
-	private void makeTable(Graphics g) {
+	private void makeTable(Graphics g) {//make table
 		g.setColor(Color.black);
 		g.fillRect(WIDTH/2 - WIDTH/6, 0, WIDTH/3, 10);
 		g.fillRect(WIDTH/2 - WIDTH/6, HEIGHT - 10,WIDTH/3 ,10);

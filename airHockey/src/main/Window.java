@@ -13,7 +13,7 @@ public class Window extends Canvas { //creates the window
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public Window(int width, int height, String title, Game game) {
+	public Window(int width, int height, String title, Game game) {//create window object
 		//Create JFrame
 		JFrame frame = new JFrame(title);
 		
@@ -38,7 +38,6 @@ public class Window extends Canvas { //creates the window
 		Game.WIDTH = newContentPane.getWidth();
 		Game.HEIGHT = newContentPane.getHeight();
 
-		//System.out.println(Game.WIDTH + ", " + Game.HEIGHT);
 		
 		game.start();
 	}

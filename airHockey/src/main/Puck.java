@@ -19,7 +19,7 @@ public class Puck extends GameObject {
 			velX = 0;//6;
 			velY = 0;//7;
 			diameter = 40;
-			mass = 2;
+			mass = 3;
 			this.handler = handler;
 	}
 	
@@ -45,14 +45,7 @@ public class Puck extends GameObject {
 	public void puckMovement() {
 		currentTime = System.nanoTime();
 		timePassed = (currentTime - lastTime)/Game.update;
-		
-		
-		/*//rework
-		
-
-
-		*///end of rework
-		
+				
 		calcAcc();
 
 		x = x + (int) ((velX * timePassed) + (.5 * accX * Math.pow(timePassed, 2)));
@@ -136,49 +129,9 @@ public class Puck extends GameObject {
 		}
 	}
 	
-	private void calcAcc() {
-				
+	private void calcAcc() {		
 		accX = -velX / 1;
-		accY = -velY / 1;
-		
-		
-		//double distance = (puckVel * timePassed) + (.5 * Game.friction * Math.pow(timePassed, 2));
-		/*if(velX != 0 && velY != 0) {
-			double angle = Math.atan2(velX, velY);
-			accX = Math.abs(Math.cos(angle)) * -velX;
-			accY = Math.abs(Math.sin(angle)) * -velY;
-			System.out.println(accY);
-		}*/
-		
-		//System.out.println((int)(velX) + ", " + (int)(velY));
-		/*
-		if((int)(velX * 10) != 0) {
-			//double angle = Math.atan2(velX, velY);
-			//accX = -1 * Math.cos(angle);
-			//System.out.println(angle + ", " + accX + ", " + accY);
-			accX = -velX / 10;
-		}
-		else {
-			accX = 0;
-			velX = 0;
-		}
-		if((int)(velY * 10) != 0) {
-			//double angle = Math.atan2(velX, velY);
-			//accY = -1 * Math.sin(angle);
-			accY = -velY / 10;
-		}
-		else {
-			accY = 0;
-			velY = 0;
-		}
-		if((int)(velX) == 0 && (int)(velY) != 0) {
-			if(y <= Game.HEIGHT/2 - diameter/2) {
-				x = Game.WIDTH/2; 
-				y = Game.HEIGHT/2;
-			}
-		}
-		//System.out.println((int)(velX) + ", " + (int)(velY));
-		*/
+		accY = -velY / 1;	
 	}
 	
 }

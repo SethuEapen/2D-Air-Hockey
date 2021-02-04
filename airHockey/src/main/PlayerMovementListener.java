@@ -20,7 +20,7 @@ public class PlayerMovementListener extends JPanel implements MouseMotionListene
 	}
 	
 	@Override
-	public void mouseDragged(MouseEvent e) {
+	public void mouseDragged(MouseEvent e) {//update cords when mouse moves
 		playerx = e.getX();
 		playery = e.getY();
 	}

@@ -12,11 +12,11 @@ public class AI extends GameObject {
 	double timePassed;
 	int lastx = 0, lasty = 0;
 	int lastvelx = 0, lastvely = 0;
-	int speed = 7;
+	int speed = 5;
 	
 	int count = 0;
     
-	public AI(int x, int y, ID id, Handler handler) {
+	public AI(int x, int y, ID id, Handler handler) {//creates ai object
 		super(x, y, id);
 		this.handler = handler;
 		diameter = 60;
@@ -24,7 +24,7 @@ public class AI extends GameObject {
 	}
 	
 	@Override
-	public void tick() {
+	public void tick() {//ticks
 		//calculating location
 		clampCords();
 				
@@ -47,7 +47,7 @@ public class AI extends GameObject {
 		lastTime = System.nanoTime();
 	}
 	
-	private void clampCords() {
+	private void clampCords() {//makes the AI move
 		for (int i = 0; i < handler.object.size(); i++) {
 			GameObject tempObject = handler.object.get(i);
 			if(tempObject.getID() == ID.Puck) {
@@ -73,13 +73,11 @@ public class AI extends GameObject {
 		
 	}
 	
-	public void AIMove(GameObject tempObject) {
-		double puckToGoalX = tempObject.x - Game.WIDTH/2;
-		double puckToGoalY = Game.HEIGHT - tempObject.y;
-		double slope = puckToGoalY / puckToGoalX;
+	public void AIMove(GameObject tempObject) {//moves the AI twards the ball - very basic but it is fast so it works
+		//double puckToGoalX = tempObject.x - Game.WIDTH/2;
+		//double puckToGoalY = Game.HEIGHT - tempObject.y;
+		//double slope = puckToGoalY / puckToGoalX;
 		
-		//x = (int) (x + (slope * speed));
-		//y = (int) (y + (1/slope * speed));
 		
 	
 		if(tempObject.x > x) {
@@ -96,7 +94,7 @@ public class AI extends GameObject {
 		}
 	}
 	
-	private void collisions() {
+	private void collisions() {//sends object to on collision
 		for (int i = 0; i < handler.object.size(); i++) {
 			GameObject tempObject = handler.object.get(i);
 			if(tempObject.getID() == ID.Puck) {
@@ -108,20 +106,18 @@ public class AI extends GameObject {
 	}
 	
 	private void onCollision(GameObject tempObject) {
-		//tempObject.velX = calcCompnt(mass, tempObject.mass, velX, tempObject.velX);
-		//tempObject.velY = calcCompnt(mass, tempObject.mass, velY, tempObject.velY);
+		
 		calcCompnt(tempObject);
 		antiClip(tempObject);
 	}
 	
-	private void antiClip(GameObject tempObject) {
+	private void antiClip(GameObject tempObject) {//prevents clipping
 		int buffer = 1;
 		int radius = diameter/2;
 		int tempRadius = tempObject.diameter/2;
 		int distance = radius + tempRadius + buffer;
 		int difx = tempObject.x - x;
 		int dify = tempObject.y - y;
-		//System.out.println(distance + ", " + difx + ", " + dify);
 		double angle = Math.atan2(dify, difx);
 		int newX = (int) (Math.cos(angle) * distance) + x;
 		int newY = (int) (Math.sin(angle) * distance) + y;
@@ -136,7 +132,7 @@ public class AI extends GameObject {
 		
 	}
 	
-	public void reset() {
+	public void reset() {//resets game
 		for (int i = 0; i < handler.object.size(); i++) {
 			GameObject tempObject = handler.object.get(i);
 			if(tempObject.getID() == ID.AI) {
@@ -159,10 +155,11 @@ public class AI extends GameObject {
 	}
 	
 	private void calcCompnt(GameObject tempObject) {
-		//double compnt;
 		
 		/* use this code if you want to use conservation of momentum but if you want it to work better just take advantage of the 
 		 * vague terms of the units and just use the much better proportional method below
+		double compnt;
+		
 		double top = 2*(m1 * v1) - (m1 * v2) + (m2 * v2);
 		double bottom = m1 + m2;
 		

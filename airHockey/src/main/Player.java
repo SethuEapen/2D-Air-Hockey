@@ -37,19 +37,6 @@ public class Player extends GameObject { //puck
 		accX = (velX - lastvelx)/timePassed;
 		accY = (velY - lastvely)/timePassed;
 
-		
-		//reporting values
-		
-		//if(count == 1) {
-		//System.out.println("Vel:" + velX);
-		//System.out.println("Vel: " + velY);
-		//System.out.println("Acc:" + accX);
-		//System.out.println("Acc: " + accY);
-			//count = 0;
-		//}
-		//count++;
-		
-		//collisions
 		collisions();
 		
 		//resetting
@@ -71,8 +58,7 @@ public class Player extends GameObject { //puck
 	
 	
 	private void onCollision(GameObject tempObject) {
-		//tempObject.velX = calcCompnt(mass, tempObject.mass, velX, tempObject.velX);
-		//tempObject.velY = calcCompnt(mass, tempObject.mass, velY, tempObject.velY);
+		
 		calcCompnt(tempObject);
 		antiClip(tempObject);
 	}
@@ -84,7 +70,6 @@ public class Player extends GameObject { //puck
 		int distance = radius + tempRadius + buffer;
 		int difx = tempObject.x - x;
 		int dify = tempObject.y - y;
-		//System.out.println(distance + ", " + difx + ", " + dify);
 		double angle = Math.atan2(dify, difx);
 		int newX = (int) (Math.cos(angle) * distance) + x;
 		int newY = (int) (Math.sin(angle) * distance) + y;
@@ -122,10 +107,10 @@ public class Player extends GameObject { //puck
 	}
 	
 	private void calcCompnt(GameObject tempObject) {
-		//double compnt;
-		
 		/* use this code if you want to use conservation of momentum but if you want it to work better just take advantage of the 
 		 * vague terms of the units and just use the much better proportional method below
+		double compnt;
+		
 		double top = 2*(m1 * v1) - (m1 * v2) + (m2 * v2);
 		double bottom = m1 + m2;
 		
@@ -163,13 +148,7 @@ public class Player extends GameObject { //puck
 		if(distance >= hypo) {
 			return true;
 		}
-		
-		if(count == 50) {
-			//System.out.println("Tempx: " + tempx + ", Tempy: " + tempy + ", Distance: " + distance + ", difX: " + difX + ", difY: " + difY + ", Hypo: " + hypo);		
-			count = 0;
-		}
-		count++;
-		
+				
 		return false;
 	}
 
