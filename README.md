@@ -52,6 +52,9 @@ velY = velY + (accY * timePassed);
 ### Misc.
 Other implementaions of physics can be seen throughout the source code
 
+## AI
+This AI is very basic and just moves towards the ball. To balance this, I made the AI overpowered by making it super fast and allowing it to basically prematurely end the game by slamming the puck through the wall.
+
 ## Special Thanks
 ### to [RealTutsGML](https://www.youtube.com/channel/UCOs7Q7IeuzgRyARaEqif75A) for Java game tutorials that helped with the strucure of this code.
 ### and Mr. Pederson for being an amazing teacher! Im going to miss you next year!
